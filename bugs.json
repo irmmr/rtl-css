@@ -1,0 +1,17 @@
+[
+    {
+        "should": "Should not negate color value for linear gradient with calc",
+        "expected": "div { background-image: linear-gradient(rgba(255,255,calc((125 * 2) + .5), .3) 0%,#ff8 100%); }",
+        "input": "div { background-image: linear-gradient(rgba(255,255,calc((125 * 2) + 5), .3) 0%, #ff8 100%); }"
+    },
+    {
+        "should": "Should negate angle value for linear gradient",
+        "expected": "div { background-image: linear-gradient(13.25deg,rgba(255, 255, 255, .15) 25%, transparent 25%); }",
+        "input": "div { background-image: linear-gradient(-13.25deg, rgba(255, 255, 255, .15) 25%, transparent 25%); }"
+    },
+    {
+        "should": "Should mirror property value: border-color (4 values)",
+        "expected": "div { border-color: rgba(255,255,255,1) hsla(0,100%,50%,1) #000 hsla(0,100%,50%,1); }",
+        "input": "div { border-color: rgba(255, 255, 255, 1) hsla(0, 100%, 50%, 1) #000 rgb( 0, 0, 0); }"
+    }
+]
