@@ -60,15 +60,55 @@ class ParseCommaList
     }
 
     /**
+     * a function to split multi backgrounds
+     * by @chatgpt
+     *
+     * @param   string $input
+     * @return  array
+     */
+    protected function splitCssValues(string $input): array {
+        preg_match('/\s*([^;]+)/', $input, $matches);
+
+        if (empty($matches)) {
+            return [];
+        }
+
+        $backgroundString = $matches[1];
+
+        $backgrounds    = [];
+        $level          = 0;
+        $current        = '';
+
+        for ($i = 0; $i < strlen($backgroundString); $i++) {
+            $char = $backgroundString[$i];
+
+            if ($char === '(') {
+                $level ++;
+            } elseif ($char === ')') {
+                $level --;
+            } elseif ($char === ',' && $level === 0) {
+                $backgrounds[] = trim($current);
+                $current = '';
+
+                continue;
+            }
+
+            $current .= $char;
+        }
+
+        if (!empty($current)) {
+            $backgrounds[] = trim($current);
+        }
+
+        return $backgrounds;
+    }
+
+    /**
      * parse values and list
      */
     public function parse(): void
     {
-        $pattern = '/\s*([^,(]+(?:\([^()]*\))?[^,()]*(?:\([^()]*\)[^,()]*)*)\s*(?=,|$)/';
-
-        preg_match_all($pattern, $this->text, $matches);
-
-        $exp_comma = array_map('trim', $matches[0]);
+        $exp_comma = $this->splitCssValues($this->text);
 
         foreach ($exp_comma as $i) {
             $i_code  = '.wapper { box-shadow: ' . $i  . '; }';
@@ -80,9 +120,15 @@ class ParseCommaList
                 continue;
             }
 
-            $rule_value = $parse_tree->getContents()[0]->getRules()[0]->getValue() ?? null;
+            if ($parse_tree->getContents()[0]) {
+                $content = $parse_tree->getContents()[0];
 
-            $this->list->addListComponent($rule_value);
+                if (isset($content->getRules()[0])) {
+                    $rule_value = $parse_tree->getContents()[0]->getRules()[0]->getValue() ?? '';
+
+                    $this->list->addListComponent($rule_value);
+                }
+            }
         }
     }
 

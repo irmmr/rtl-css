@@ -53,5 +53,10 @@
         "should": "Should mirror horizontal position expressed in length unit (two-value syntax)",
         "expected": ".banner { background: right 20px top 30px url(\"topbanner.png\") #00d repeat-y fixed; }",
         "input": ".banner { background: 20px 30px url(topbanner.png) #00d repeat-y fixed; }"
+    },
+    {
+        "should": "Should parse difficult backgrounds",
+        "expected": "div {background: padding-box linear-gradient(var(--button-bg),var(--button-bg)),border-box linear-gradient(rgba(255,255,255,.08) 90%,rgba(0,0,0,.4) 100%),border-box var(--button-bg);}",
+        "input": "div {background: padding-box linear-gradient(var(--button-bg),var(--button-bg)),border-box linear-gradient(rgba(255,255,255,.08) 90%,rgba(0,0,0,.4) 100%),border-box var(--button-bg);}"
     }
 ]
