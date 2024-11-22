@@ -2,7 +2,7 @@
 
 ![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.4-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg) ![GitHub issues](https://img.shields.io/github/issues/irmmr/rtl-css.svg) ![GitHub stars](https://img.shields.io/github/stars/irmmr/rtl-css.svg)
 
-RTL-CSS is a PHP module designed to automatically convert CSS styles from left-to-right (LTR) to right-to-left (RTL) direction. This is particularly useful for applications that require localization support for languages that read from right to left, such as Arabic or Hebrew.
+RTL-CSS is a PHP module designed to automatically convert CSS styles from left-to-right (LTR) to right-to-left (RTL) direction. This is particularly useful for applications that require localization support for languages that read from right to left, such as Persian, Arabic or Hebrew.
 
 RTL-CSS utilizes the [MyIntervals/PHP-CSS-Parser](https://github.com/MyIntervals/PHP-CSS-Parser) library for parsing CSS. This powerful library provides a robust and flexible way to work with CSS stylesheets, allowing us to efficiently analyze and manipulate CSS rules.
 ## Table of Contents
