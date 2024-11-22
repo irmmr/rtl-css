@@ -14,7 +14,7 @@ final class ParseTest extends TestCase
         "properties.json",
         "regression.json",
         "transformOrigin.json",
-        //"transforms.json",
+        "transforms.json",
         "values.json",
         "valuesSyntaxN.json"
         // TODO: add variables support
