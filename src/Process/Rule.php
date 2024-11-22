@@ -9,6 +9,7 @@ use Irmmr\RTLCss\Process\Swap\SwapBackground;
 use Irmmr\RTLCss\Process\Swap\SwapBorderRadius;
 use Irmmr\RTLCss\Process\Swap\SwapCursor;
 use Irmmr\RTLCss\Process\Swap\SwapShadow;
+use Irmmr\RTLCss\Process\Swap\SwapTransform;
 use Irmmr\RTLCss\Process\Swap\SwapTransformOrigin;
 use Irmmr\RTLCss\Traits\OptionsIniTrait;
 use Sabberworm\CSS\Rule\Rule as CssRule;
@@ -108,6 +109,9 @@ class Rule
         } else if (preg_match('/transform-origin/i', $property)) {
             $this->swapTransformOrigin($value);
 
+        } else if (preg_match('/transform/i', $property)) {
+            $this->swapTransform($value);
+
         } else if (preg_match('/background(-image)?$/i', $property)) {
             $this->swapBackground($value);
 
@@ -205,6 +209,16 @@ class Rule
     protected function swapTransformOrigin($value): void
     {
         SwapTransformOrigin::swap($value, $this->rule, 'transform-origin');
+    }
+
+    /**
+     * swap transform
+     *
+     * @param  RuleValueList|string|null  $value
+     */
+    protected function swapTransform($value): void
+    {
+        SwapTransform::swap($value, $this->rule, 'transform');
     }
 
     /**
