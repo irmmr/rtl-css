@@ -82,6 +82,11 @@ class Rule
         $property  = $this->rule->getRule();
         $value     = $this->rule->getValue();
 
+        // do not apply on variables
+        if (substr($property, 0, 2) === '--') {
+            return;
+        }
+
         if (preg_match('/direction$/im', $property)) {
             $this->swapLtr($value);
 

@@ -78,25 +78,5 @@
         "should": "Should mirror transform with calc: rotate3d",
         "expected": "div { transform: rotate3d(-10,20.15,10,calc(-1*(( ( 25% / 2 ) * 10deg )))); }",
         "input": "div { transform: rotate3d(10, 20.15, 10, calc(((25%/2) * 10deg))); }"
-    },
-    {
-        "should": "Should mirror transform : scale",
-        "expected": "div { transform: scale(-1.2); }",
-        "input": "div { transform: scale(1.2); }"
-    },
-    {
-        "should": "Should mirror transform : scaleX",
-        "expected": "div { transform: scaleX(-1.2); }",
-        "input": "div { transform: scaleX(1.2); }"
-    },
-    {
-        "should": "Should mirror transform : scaleY",
-        "expected": "div { transform: scaleY(-1.2); }",
-        "input": "div { transform: scaleY(1.2); }"
-    },
-    {
-        "should": "Should mirror transform : scale3d",
-        "expected": "div { transform: scale3d(-1.2,-1.2,-1.2); }",
-        "input": "div { transform: scale3d(1.2, 1.2, 1.2); }"
     }
 ]

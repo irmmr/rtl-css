@@ -22,48 +22,58 @@ class SwapTransform extends Swap
     public function apply(): void
     {
         $value = $this->value;
-        $item  = $value;
 
         if ($value instanceof RuleValueList) {
-            $item = $value->getListComponents()[0];
-        }
-
-        if (!$item instanceof CSSFunction) {
-            return;
-        }
-
-        $name   = $item->getName();
-        $parts  = $item->getListComponents();
-
-        if (Helpers::strIncludes($name, 'rotate3d') || Helpers::strIncludes($name, 'translate3d')) {
-            $keys = [0, 3];
-
-            foreach ($keys as $key) {
-                if (isset($parts[$key])) {
-                    Manipulate::negate($parts[$key]);
-                }
-            }
-
-        } elseif (Helpers::strIncludes($name, 'matrix3d')) {
-            $keys = [1, 3, 4, 12];
-
-            foreach ($keys as $key) {
-                if (isset($parts[$key])) {
-                    Manipulate::negate($parts[$key]);
-                }
-            }
-
-        } elseif (Helpers::strIncludes($name, 'matrix')) {
-            $keys = [1, 2, 4];
-
-            foreach ($keys as $key) {
-                if (isset($parts[$key])) {
-                    Manipulate::negate($parts[$key]);
-                }
-            }
-
+            $items = $value->getListComponents();
         } else {
-            Manipulate::negate($item);
+            $items = [$value];
+        }
+
+        foreach ($items as $item_key => $item) {
+            if (!$item instanceof CSSFunction) {
+                return;
+            }
+
+            $name   = $item->getName();
+            $parts  = $item->getListComponents();
+
+            // leave scales alone!
+            if (Helpers::strIncludes($name, 'scale')) {
+                continue;
+
+            } else if (Helpers::strIncludes($name, 'rotate3d') || Helpers::strIncludes($name, 'translate3d')) {
+                $keys = [0, 3];
+
+                foreach ($keys as $key) {
+                    if (isset($parts[$key])) {
+                        Manipulate::negate($parts[$key]);
+                    }
+                }
+
+            } elseif (Helpers::strIncludes($name, 'matrix3d')) {
+                $keys = [1, 3, 4, 12];
+
+                foreach ($keys as $key) {
+                    if (isset($parts[$key])) {
+                        Manipulate::negate($parts[$key]);
+                    }
+                }
+
+            } elseif (Helpers::strIncludes($name, 'matrix')) {
+                $keys = [1, 2, 4];
+
+                foreach ($keys as $key) {
+                    if (isset($parts[$key])) {
+                        Manipulate::negate($parts[$key]);
+                    }
+                }
+
+            } elseif (Helpers::strIncludes($name, 'translate')) {
+                Manipulate::negate($parts[0]);
+
+            } else {
+                Manipulate::negate($item);
+            }
         }
     }
 }
