@@ -66,7 +66,8 @@ class ParseCommaList
      * @param   string $input
      * @return  array
      */
-    protected function splitCssValues(string $input): array {
+    protected function splitCssValues(string $input): array
+    {
         preg_match('/\s*([^;]+)/', $input, $matches);
 
         if (empty($matches)) {
