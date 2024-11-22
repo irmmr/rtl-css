@@ -173,4 +173,16 @@ class Helpers
     {
         return preg_match('/\b(top|bottom|right|left)\b/i', $str);
     }
+
+    /**
+     * check if string include other string
+     *
+     * @param string $str
+     * @param string $needle
+     * @return  bool
+     */
+    public static function strIncludes(string $str, string $needle): bool
+    {
+        return strpos($str, $needle) !== false;
+    }
 }

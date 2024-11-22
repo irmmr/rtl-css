@@ -43,14 +43,21 @@ class Manipulate
      */
     public static function negate($value): void
     {
-        if ($value instanceof ValueList) {
+        if ($value instanceof CSSFunction && Helpers::strIncludes($value->getName(), 'calc')) {
+            $arguments = implode($value->getListSeparator(), $value->getArguments());
+            $arguments = "-1*($arguments)";
+            $value->setListComponents([$arguments]);
+
+        } else if ($value instanceof ValueList) {
             foreach ($value->getListComponents() as $part) {
                 self::negate($part);
             }
+
         } else if ($value instanceof Size) {
             if ($value->getSize() != 0) {
                 $value->setSize(-$value->getSize());
             }
+
         }
     }
 }
