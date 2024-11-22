@@ -134,7 +134,7 @@ class Block
             // should ignore
             if (!$commands['total-ignore']) {
                 $opt = new Options([
-                    'ignoreRules' => $commands['ignore'],
+                    'ignoreRules' => \array_merge((array) $this->options->get('ignoreRules', []), $commands['ignore']),
                     'removeRules' => $commands['remove']
                 ]);
 

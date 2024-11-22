@@ -11,6 +11,7 @@ interface ParserInterface
 {
     // parser default options
     public const DEFAULT_OPTIONS = [
-        'processComments' => true
+        'processComments' => true,
+        'ignoreRules'     => []
     ];
 }
