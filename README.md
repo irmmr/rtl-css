@@ -2,7 +2,7 @@
 
 ![PHP Version](https://img.shields.io/badge/PHP-%3E%3D7.4-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg) ![GitHub issues](https://img.shields.io/github/issues/irmmr/rtl-css.svg) ![GitHub stars](https://img.shields.io/github/stars/irmmr/rtl-css.svg)
 
-RTL-CSS is a PHP module designed to automatically convert CSS styles from left-to-right (LTR) to right-to-left (RTL) direction. This is particularly useful for applications that require localization support for languages that read from right to left, such as Arabic or Hebrew.
+RTL-CSS is a PHP module designed to automatically convert CSS styles from left-to-right (LTR) to right-to-left (RTL) direction. This is particularly useful for applications that require localization support for languages that read from right to left, such as Persian, Arabic or Hebrew.
 
 RTL-CSS utilizes the [MyIntervals/PHP-CSS-Parser](https://github.com/MyIntervals/PHP-CSS-Parser) library for parsing CSS. This powerful library provides a robust and flexible way to work with CSS stylesheets, allowing us to efficiently analyze and manipulate CSS rules.
 ## Table of Contents
@@ -52,10 +52,6 @@ I created this project by observing https://github.com/moodlehq/rtlcss-php. One 
 To use RTL-CSS in your project, include the main PHP file and call the conversion function. Here’s a simple example:
 
 ```php
-use Irmmr\RTLCss\Parser as RTLParser;
-use Sabberworm\CSS\Parser;
-use Sabberworm\CSS\Parsing\SourceException;
-
 // it's very simple and I know this
 $css_code = "div { float: left; }";
 
@@ -143,3 +139,70 @@ Output:
 }
 ```
 
+## Encoder
+You can use the Encoder to encode CSS codes that the CSS parser cannot analyze and parse correctly. The best current use of the Encoder is to prevent errors related to color codes and functions. The CSS parser cannot parse color function values that are entered without commas, and for this reason, it removes the corresponding rule.
+
+```php
+// using rgb(0 0 0 / 20%)
+$css_code = "
+div {
+    float: left;
+    box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
+}
+";
+...
+
+// create rtlcss parser
+$rtlcss = new RTLParser($css_tree);
+
+// parsing css rules and properties
+$rtlcss->flip();
+```
+Output: (missing `box-shadow`)
+```css
+div {float: right;}
+```
+
+Now using Encoder:
+```php
+// using rgb(0 0 0 / 20%)
+$css_code = "
+div {
+    float: left;
+    box-shadow: 2px 2px 2px 1px rgb(0 0 0 / 20%);
+}
+";
+
+// rtl encoder
+$rtl_encode = new Encode($css_code);
+
+// change css value
+$css_code = $rtl_encode->encode();
+
+// parse css code
+$css_parser = new Parser($css_content);
+
+try {
+    $css_tree = $css_parser->parse();
+} catch (SourceException $e) {
+    // Error occ
+    return;
+}
+
+// create rtlcss parser
+$rtlcss = new RTLParser($css_tree);
+
+// parsing css rules and properties
+$rtlcss->flip();
+
+// get rendered and update encoded
+$rendered = $css_tree->render();
+$rtl_encode->setEncoded($rendered);
+
+// get parsed css code
+echo $rtl_encode->decode();
+```
+Output:
+```css
+div {float: right;box-shadow: -2px 2px 2px 1px rgb(0 0 0 / 20%);}
+```
