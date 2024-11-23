@@ -4,6 +4,7 @@ namespace Irmmr\RTLCss\Process\Swap;
 
 use Irmmr\RTLCss\Helpers;
 use Irmmr\RTLCss\Manipulate;
+use Sabberworm\CSS\Value\CSSFunction;
 use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
 
@@ -52,7 +53,7 @@ class SwapShadow extends Swap
                 $part = $parts[ $part_key ];
 
                 // just do it for first!
-                if ($part instanceof Size) {
+                if ($part instanceof Size || ($part instanceof CSSFunction && Helpers::strIncludes( Helpers::getValueStr($part), 'calc' ))) {
                     Manipulate::negate($part);
 
                     break;
