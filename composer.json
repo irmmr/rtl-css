@@ -1,12 +1,14 @@
 {
     "name": "irmmr/rtlcss",
     "type": "library",
+    "description": "PHP Module for Converting LTR CSS to RTL",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "license": "MIT",
     "keywords": [
         "rtlcss",
-        "RTLCss"
+        "RTLCss",
+        "php-rtlcss"
     ],
     "authors": [
         {
