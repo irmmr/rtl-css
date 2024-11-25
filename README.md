@@ -112,6 +112,8 @@ a {
 }
 ```
 
+Please see: [https://github.com/irmmr/rtl-css/wiki/Directives](https://github.com/irmmr/rtl-css/wiki/Directives)
+
 
 ## Examples
 
