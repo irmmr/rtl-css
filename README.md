@@ -11,8 +11,8 @@ RTL-CSS utilizes the [MyIntervals/PHP-CSS-Parser](https://github.com/MyIntervals
 - [Installation](#installation)
 - [Usage](#usage)
 - [Examples](#examples)
-- [Contributing](#contributing)
-- [License](#license)
+- [Directives](#directives)
+- [Encoder](#encoder)
 
 ## Features
 
