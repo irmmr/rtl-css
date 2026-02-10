@@ -29,6 +29,7 @@ class SwapBorderRadius extends Swap
             }
 
             foreach ($groups as $group) {
+                // @todo Potentially polymorphic call. The code may be inoperable depending on the actual class instance passed as the argument.
                 $values = $group->getListComponents();
 
                 switch (count($values)) {

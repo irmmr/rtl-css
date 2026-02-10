@@ -20,12 +20,6 @@ class Directive implements DirectiveInterface
      * The list of all comments related to one Rule
      * @var  array
      */
-    protected array $comments = [];
-
-    /**
-     * The list of all comments related to one Rule
-     * @var  array
-     */
     protected array $commands = [];
 
     /**
@@ -49,12 +43,11 @@ class Directive implements DirectiveInterface
     /**
      * The function is a PHP constructor.
      *
-     * @param array $comments
+     * @param array $comments The list of all comments related to one Rule
      */
-    public function __construct(array $comments)
-    {
-        $this->comments = $comments;
-    }
+    public function __construct(
+        protected array $comments = []
+    ) {}
 
     /**
      * get list of comments
@@ -88,7 +81,7 @@ class Directive implements DirectiveInterface
 
     /**
      * run this process with
-     * applyting all we need to our entry
+     * applying all we need to our entry
      */
     public function parse(): void
     {
@@ -118,7 +111,7 @@ class Directive implements DirectiveInterface
     }
 
     /**
-     * check if comment content is includes a command
+     * check if comment content is including a command
      *
      * @param   string $content
      * @return  bool

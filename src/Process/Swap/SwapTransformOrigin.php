@@ -64,7 +64,7 @@ class SwapTransformOrigin extends Swap
                 } else if ($value->getUnit() === '%') {
                     Manipulate::complement($value);
                 }
-            } else if ($value instanceof CSSFunction && strpos($value->getName(), 'calc') !== false) {
+            } else if ($value instanceof CSSFunction && str_contains($value->getName(), 'calc')) {
                 Manipulate::complement($value);
             }
         }

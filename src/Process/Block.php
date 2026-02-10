@@ -26,12 +26,6 @@ class Block
     use OptionsIniTrait;
 
     /**
-     * The block as DeclarationBlock
-     * @var  Document
-     */
-    protected Document $block;
-
-    /**
      * list of every content
      * @var array
      */
@@ -40,13 +34,12 @@ class Block
     /**
      * The function is a PHP constructor.
      *
-     * @param Document $block
+     * @param Document $block The block as DeclarationBlock
      * @param Options  $options
      */
-    public function __construct(Document $block, Options $options)
+    public function __construct(protected Document $block, Options $options)
     {
-        $this->block    = $block;
-        $this->options  = $options;
+        $this->options = $options;
     }
 
     /**
@@ -68,18 +61,20 @@ class Block
      * @param mixed   $node
      * @param Options $options
      */
-    private function parseNode($node, Options $options): void
+    private function parseNode(mixed $node, Options $options): void
     {
         if ($node instanceof CSSList) {
             ProCSSList::parse($node, $options);
         } else if ($node instanceof RuleSet) {
             RuleSets::parse($node, $options);
+        } else if ($node instanceof DeclarationBlock) {
+            Declaration::parse($node, $options);
         }
     }
 
     /**
      * run this process with
-     * applyting all we need to our entry
+     * applying all we need to our entry
      */
     public function run(): void
     {
@@ -111,7 +106,7 @@ class Block
             }
 
             // should rename
-            if (!empty($commands['rename']) && $node instanceof  DeclarationBlock) {
+            if (!empty($commands['rename']) && $node instanceof DeclarationBlock) {
                 try {
                     $node->setSelectors($commands['rename']);
                 } catch (UnexpectedTokenException $e) {

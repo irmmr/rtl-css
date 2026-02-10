@@ -16,9 +16,9 @@ final class ParseTest extends TestCase
         "transformOrigin.json",
         "transforms.json",
         "values.json",
-        "valuesSyntaxN.json"
-        // TODO: add variables support
-        //"variables.json"
+        "valuesSyntaxN.json",
+        "variables.json",
+        "fix-150.json",
     ];
 
     private function addSpacesAroundCSSValues(string $css): string {
@@ -34,11 +34,14 @@ final class ParseTest extends TestCase
 
     private function parseAction(string $css, array $options = []): string
     {
+        $rtl_render = new \Irmmr\RTLCss\Encode($css);
+        $css = $rtl_render->encode();
+
         // trying to parse created css sources
         $css_parser = new \Sabberworm\CSS\Parser($css);
 
         try {
-            $css_tree   = $css_parser->parse();
+            $css_tree = $css_parser->parse();
         } catch (\Sabberworm\CSS\Parsing\SourceException $e) {
             return '';
         }
@@ -47,7 +50,9 @@ final class ParseTest extends TestCase
 
         $rtlcss->flip();
 
-        return $this->addSpacesAroundCSSValues( $css_tree->render() );
+        $rtl_render->setEncoded($css_tree->render());
+
+        return $this->addSpacesAroundCSSValues( $rtl_render->decode() );
     }
 
     public function testParseEveryEntry(): void

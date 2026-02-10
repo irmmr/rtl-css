@@ -53,7 +53,7 @@ class SwapShadow extends Swap
                 $part = $parts[ $part_key ];
 
                 // just do it for first!
-                if ($part instanceof Size || ($part instanceof CSSFunction && Helpers::strIncludes( Helpers::getValueStr($part), 'calc' ))) {
+                if ($part instanceof Size || ($part instanceof CSSFunction && str_contains( Helpers::getValueStr($part), 'calc' ))) {
                     Manipulate::negate($part);
 
                     break;

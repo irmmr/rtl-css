@@ -2,7 +2,6 @@
 
 namespace Irmmr\RTLCss\Process\Swap;
 
-use Irmmr\RTLCss\Helpers;
 use Irmmr\RTLCss\Manipulate;
 use Sabberworm\CSS\Value\CSSFunction;
 use Sabberworm\CSS\Value\RuleValueList;
@@ -38,10 +37,10 @@ class SwapTransform extends Swap
             $parts  = $item->getListComponents();
 
             // leave scales alone!
-            if (Helpers::strIncludes($name, 'scale')) {
+            if (str_contains($name, 'scale')) {
                 continue;
 
-            } else if (Helpers::strIncludes($name, 'rotate3d') || Helpers::strIncludes($name, 'translate3d')) {
+            } else if (str_contains($name, 'rotate3d') || str_contains($name, 'translate3d')) {
                 $keys = [0, 3];
 
                 foreach ($keys as $key) {
@@ -50,7 +49,7 @@ class SwapTransform extends Swap
                     }
                 }
 
-            } elseif (Helpers::strIncludes($name, 'matrix3d')) {
+            } elseif (str_contains($name, 'matrix3d')) {
                 $keys = [1, 3, 4, 12];
 
                 foreach ($keys as $key) {
@@ -59,7 +58,7 @@ class SwapTransform extends Swap
                     }
                 }
 
-            } elseif (Helpers::strIncludes($name, 'matrix')) {
+            } elseif (str_contains($name, 'matrix')) {
                 $keys = [1, 2, 4];
 
                 foreach ($keys as $key) {
@@ -68,7 +67,7 @@ class SwapTransform extends Swap
                     }
                 }
 
-            } elseif (Helpers::strIncludes($name, 'translate')) {
+            } elseif (str_contains($name, 'translate')) {
                 Manipulate::negate($parts[0]);
 
             } else {

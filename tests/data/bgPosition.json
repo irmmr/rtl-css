@@ -31,7 +31,7 @@
     },
     {
         "should": "Should mirror background-position (calc)",
-        "expected": "div {background-position: right -ms-calc(30% + 50px),left top;}",
+        "expected": "div {background-position: right calc(30% + 50px),left top;}",
         "input": "div {background-position:left -ms-calc(30% + 50px), right top;}"
     },
     {
@@ -46,7 +46,7 @@
     },
     {
         "should": "Should complement percentage with calc: position-x",
-        "expected": "div {background-position-x: calc(100% - (30% + 50px)),-webkit-calc(100% - (30% + 50px));}",
+        "expected": "div {background-position-x: calc(100% - (30% + 50px)),calc(100% - (30% + 50px));}",
         "input": "div {background-position-x:calc(30% + 50px), -webkit-calc(30% + 50px);}"
     },
     {

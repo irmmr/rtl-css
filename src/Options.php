@@ -59,7 +59,7 @@ class Options
      * @param  null        $def
      * @return mixed
      */
-    public function get(?string $key = null, $def = null)
+    public function get(?string $key = null, $def = null): mixed
     {
         if (!is_null($key)) {
             return $this->has($key) ? $this->options[$key] : $def;
@@ -89,7 +89,7 @@ class Options
      * @param array $options
      * @param mixed $value
      */
-    public function create(array $options, $value): void
+    public function create(array $options, mixed $value): void
     {
         foreach ($options as $option) {
             if (!$this->has($option)) {

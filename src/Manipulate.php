@@ -3,6 +3,7 @@
 namespace Irmmr\RTLCss;
 
 use Sabberworm\CSS\Value\CSSFunction;
+use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
 use Sabberworm\CSS\Value\ValueList;
 
@@ -22,12 +23,12 @@ class Manipulate
      *
      * @param Size|CSSFunction $value value The `complement` function takes a parameter named `$value`.
      */
-    public static function complement($value): void
+    public static function complement(Size|CSSFunction $value): void
     {
         if ($value instanceof Size) {
             $value->setSize(100 - $value->getSize());
-        } else if ($value instanceof CSSFunction) {
-            $arguments = implode($value->getListSeparator(), $value->getArguments());
+        } else /*if ($value instanceof CSSFunction)*/ {
+            $arguments = implode($value->getListSeparator(), Helpers::eachString($value->getArguments()));
             $arguments = "100% - ($arguments)";
             $value->setListComponents([$arguments]);
         }
@@ -37,14 +38,14 @@ class Manipulate
      * The `negate` function in PHP recursively negates the values in a `ValueList` object or sets the size
      * to its negative value in a `Size` object.
      *
-     * @param ValueList|Size $value value The `negate` function takes either a `ValueList` object or a `Size` object as
+     * @param mixed $value value The `negate` function takes either a `ValueList` object or a `Size` object as
      * its parameter. If the parameter is a `ValueList`, it recursively negates each component of the list.
      * If the parameter is a `Size`, it checks if the size is not zero and
      */
-    public static function negate($value): void
+    public static function negate(mixed $value): void
     {
-        if ($value instanceof CSSFunction && Helpers::strIncludes($value->getName(), 'calc')) {
-            $arguments = implode($value->getListSeparator(), $value->getArguments());
+        if ($value instanceof CSSFunction && str_contains($value->getName(), 'calc')) {
+            $arguments = implode($value->getListSeparator(), Helpers::eachString($value->getArguments()));
             $arguments = "-1*($arguments)";
             $value->setListComponents([$arguments]);
 
@@ -59,5 +60,33 @@ class Manipulate
             }
 
         }
+    }
+
+    /**
+     * Negate mixed degree data, Like 12deg, right 12deg, from 12deg
+     * and many more. Some of these expressions are not even valid but
+     * based on main rtlcss we do what we need.
+     *
+     * @param mixed $value
+     * @return void
+     */
+    public static function negateMixedDeg(mixed $value): void
+    {
+        if ($value instanceof Size && $value->getUnit() == 'deg') {
+            Manipulate::negate($value);
+            return;
+        }
+
+        $items = $value->getListComponents();
+
+        foreach ($items as $i => $item) {
+            if ($item instanceof Size && $item->getUnit() == 'deg') {
+                Manipulate::negate($item);
+            } else if (is_string($item)) {
+                $items[ $i ] = Helpers::swapLeftRight($item);
+            }
+        }
+
+        $value->setListComponents($items);
     }
 }

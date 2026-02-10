@@ -21,7 +21,7 @@
     },
     {
         "should": "Should detect raw",
-        "expected": "div { text-align: left;float: left;font-size: 12px; }",
+        "expected": "div { font-size: 12px;text-align: left;float: left; }",
         "input": "/* rtl:raw:font-size:12px; */ div { text-align: right; float: right; }"
     },
     {

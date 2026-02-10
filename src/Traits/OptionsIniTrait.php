@@ -9,13 +9,13 @@ use Irmmr\RTLCss\Options;
  *
  * @package Irmmr\RTLCss\Traits
  */
- trait OptionsIniTrait
- {
-     /**
+trait OptionsIniTrait
+{
+    /**
      * all options holder
      * @var Options
      */
-     protected Options $options;
+    protected Options $options;
 
     /**
      * get options class
@@ -26,4 +26,4 @@ use Irmmr\RTLCss\Options;
     {
         return $this->options;
     }
- }
+}

@@ -11,7 +11,7 @@
     },
     {
         "should": "Should mirror transform with calc: matrix",
-        "expected": "div { transform: matrix(-moz-calc(( ( 25% / 2 ) * 10px )),calc(-1*(( ( 25% / 2 ) * 10px ))),20.75,2,2,2); }",
+        "expected": "div { transform: matrix(calc(( ( 25% / 2 ) * 10px )),calc(-1*(( ( 25% / 2 ) * 10px ))),20.75,2,2,2); }",
         "input": "div { transform: matrix( -moz-calc(((25%/2) * 10px)), calc(( (25%/2) * 10px) ), -20.75, 2, -2, 2 ); }"
     },
     {
@@ -26,7 +26,7 @@
     },
     {
         "should": "Should mirror transform with calc: translate",
-        "expected": "div { transform: translate(-moz-calc(-1*(( ( 25% / 2 ) * 10px )))); }",
+        "expected": "div { transform: translate(calc(-1*(( ( 25% / 2 ) * 10px )))); }",
         "input": "div { transform: translate(-moz-calc(((25%/2) * 10px))); }"
     },
     {

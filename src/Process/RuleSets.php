@@ -18,12 +18,6 @@ class RuleSets
     use OptionsIniTrait;
 
     /**
-     * The node as DeclarationBlock
-     * @var  RuleSet
-     */
-    protected RuleSet $sets;
-
-    /**
      * list of all rules
      * @var array
      */
@@ -47,10 +41,9 @@ class RuleSets
      * @param RuleSet $sets
      * @param Options $options
      */
-    public function __construct(RuleSet $sets, Options $options)
+    public function __construct(protected RuleSet $sets, Options $options)
     {
-        $this->sets     = $sets;
-        $this->options  = $options;
+        $this->options = $options;
 
         $this->removes = $this->options->get('removeRules', []);
         $this->ignores = $this->options->get('ignoreRules', []);
@@ -70,7 +63,7 @@ class RuleSets
 
     /**
      * run this process with
-     * applyting all we need to our entry
+     * applying all we need to our entry
      */
     public function run(): void
     {

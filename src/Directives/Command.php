@@ -10,28 +10,15 @@ namespace Irmmr\RTLCss\Directives;
 class Command
 {
     /**
-     * command name
-     * @var string
-     */
-    protected string $name;
-
-    /**
-     * command value
-     * @var string|null
-     */
-    protected ?string $value;
-
-    /**
      * The function is a PHP constructor.
      *
      * @param   string          $name
      * @param   string|null     $value
      */
-    public function __construct(string $name, ?string $value = '')
-    {
-        $this->name     = $name;
-        $this->value    = empty($value) ? null : $value;
-    }
+    public function __construct(
+        protected string $name,
+        protected ?string $value = null
+    ) {}
 
     /**
      * get command name

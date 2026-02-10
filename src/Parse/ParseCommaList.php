@@ -21,23 +21,18 @@ use Sabberworm\CSS\Value\Value;
 class ParseCommaList
 {
     /**
-     * a list seprated by comma ","
+     * a list separated by comma ","
      * @var RuleValueList
      */
     protected RuleValueList $list;
 
     /**
-     * any text to parse
-     * @var string
-     */
-    protected string $text;
-
-    /**
      * class constructor.
+     *
+     * @param string $text any text to parse
      */
-    public function __construct(string $text)
+    public function __construct(protected string $text)
     {
-        $this->text  = $text;
         $this->list  = new RuleValueList(',');
     }
 
@@ -45,9 +40,9 @@ class ParseCommaList
      * parse single value for each entry
      *
      * @param  string $value
-     * @return mixed
+     * @return Value|string|null
      */
-    protected function parseSingleValue(string $value)
+    protected function parseSingleValue(string $value): Value|string|null
     {
         $settings = Settings::create();
         $parse    = new ParserState($value, $settings);

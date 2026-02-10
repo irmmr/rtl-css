@@ -27,21 +27,14 @@ class Rule
     use OptionsIniTrait;
 
     /**
-     * The node as DeclarationBlock
-     * @var  CssRule
-     */
-    protected CssRule $rule;
-
-    /**
      * The function is a PHP constructor.
      *
      * @param CssRule $rule
      * @param Options $options
      */
-    public function __construct(CssRule $rule, Options $options)
+    public function __construct(protected CssRule $rule, Options $options)
     {
-        $this->rule     = $rule;
-        $this->options  = $options;
+        $this->options = $options;
     }
 
     /**
@@ -64,7 +57,7 @@ class Rule
      */
     protected function parseCommaValue(RuleValueList $value): RuleValueList
     {
-        if (strpos($value->__toString(), ',') !== false) {
+        if (str_contains($value->render(Helpers::defOutputFormat()), ',')) {
             $n_parser = new ParseCommaList( Helpers::getValueStr($value) );
             $n_parser->parse();
 
@@ -76,14 +69,14 @@ class Rule
 
     /**
      * run this process with
-     * applyting all we need to our entry
+     * applying all we need to our entry
      */
     public function run(): void {
         $property  = $this->rule->getRule();
         $value     = $this->rule->getValue();
 
         // do not apply on variables
-        if (substr($property, 0, 2) === '--') {
+        if (str_starts_with($property, '--')) {
             return;
         }
 
@@ -136,7 +129,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapLtr($value): void
+    protected function swapLtr(mixed $value): void
     {
         if (!is_string($value)) {
             return;
@@ -150,7 +143,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapLeft($value): void
+    protected function swapLeft(mixed $value): void
     {
         if (!is_string($value)) {
             return;
@@ -164,7 +157,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapComplex($value)
+    protected function swapComplex(mixed $value): void
     {
         if ($value instanceof RuleValueList) {
             $values = $value->getListComponents();
@@ -185,7 +178,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapBorderRadius($value)
+    protected function swapBorderRadius(mixed $value): void
     {
         SwapBorderRadius::swap($value, $this->rule, 'border-radius');
     }
@@ -197,7 +190,7 @@ class Rule
      * @param  string $property
      */
 
-    protected function swapShadow($value, string $property)
+    protected function swapShadow(mixed $value, string $property): void
     {
         if ($value instanceof RuleValueList) {
             $value = $this->parseCommaValue($value);
@@ -211,7 +204,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapTransformOrigin($value): void
+    protected function swapTransformOrigin(mixed $value): void
     {
         SwapTransformOrigin::swap($value, $this->rule, 'transform-origin');
     }
@@ -221,7 +214,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapTransform($value): void
+    protected function swapTransform(mixed $value): void
     {
         SwapTransform::swap($value, $this->rule, 'transform');
     }
@@ -231,7 +224,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapBackground($value): void
+    protected function swapBackground(mixed $value): void
     {
         if ($value instanceof RuleValueList) {
             $value = $this->parseCommaValue($value);
@@ -246,7 +239,7 @@ class Rule
      * @param  RuleValueList|string|null  $value
      * @param  string   $property
      */
-    protected function swapBackgroundPosition($value, string $property): void
+    protected function swapBackgroundPosition(mixed $value, string $property): void
     {
         if ($value instanceof RuleValueList) {
             $value = $this->parseCommaValue($value);
@@ -260,7 +253,7 @@ class Rule
      *
      * @param  RuleValueList|string|null  $value
      */
-    protected function swapCursor($value): void
+    protected function swapCursor(mixed $value): void
     {
         SwapCursor::swap($value, $this->rule, 'cursor');
     }

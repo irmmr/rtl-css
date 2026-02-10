@@ -11,7 +11,7 @@
     },
     {
         "should": "Should mirror calc (x-offset)",
-        "expected": "div { transform-origin: -moz-calc(100% - (( ( 25% / 2 ) * 10px ))); }",
+        "expected": "div { transform-origin: calc(100% - (( ( 25% / 2 ) * 10px ))); }",
         "input": "div { transform-origin: -moz-calc(((25%/2) * 10px)); }"
     },
     {
@@ -31,7 +31,7 @@
     },
     {
         "should": "Should mirror with y being calc (x-offset y-offset: 0 means 0%)",
-        "expected": "div { transform-origin: 100% -webkit-calc(15% * ( 3 / 2 )); }",
+        "expected": "div { transform-origin: 100% calc(15% * ( 3 / 2 )); }",
         "input": "div { transform-origin:0 -webkit-calc(15% * (3/2)); }"
     },
     {
@@ -41,7 +41,7 @@
     },
     {
         "should": "Should mirror with x being calc (x-offset y-offset)",
-        "expected": "div { transform-origin: -webkit-calc(100% - (15% * ( 3 / 2 ))) 30.25%; }",
+        "expected": "div { transform-origin: calc(100% - (15% * ( 3 / 2 ))) 30.25%; }",
         "input": "div { transform-origin: -webkit-calc(15% * (3/2)) 30.25%; }"
     },
     {
@@ -56,7 +56,7 @@
     },
     {
         "should": "Should mirror with calc (y-offset x-offset-keyword)",
-        "expected": "div { transform-origin: -ms-calc(140% / 2) right; }",
+        "expected": "div { transform-origin: calc(140% / 2) right; }",
         "input": "div { transform-origin:-ms-calc(140%/2) left; }"
     },
     {
@@ -66,7 +66,7 @@
     },
     {
         "should": "Should mirror with calc (x-offset-keyword y-offset)",
-        "expected": "div { transform-origin: right -moz-calc(( ( 140% / 2 ) )); }",
+        "expected": "div { transform-origin: right calc(( ( 140% / 2 ) )); }",
         "input": "div { transform-origin:left -moz-calc(((140%/2))); }"
     },
     {

@@ -10,23 +10,19 @@ namespace Irmmr\RTLCss\Encoder;
 abstract class Encoder
 {
     /**
-     * code holder
-     * @var string
-     */
-    protected string $code = '';
-
-    /**
      * encoded code
      * @var string
      */
     protected string $encoded = '';
+
     /**
      * class constructor
+     *
+     * @param string $code code holder
      */
-    public function __construct(string $code)
-    {
-        $this->code = $code;
-    }
+    public function __construct(
+        protected string $code = ''
+    ) {}
 
     /**
      * get encoded code

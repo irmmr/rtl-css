@@ -5,8 +5,11 @@ namespace Irmmr\RTLCss\Process\Swap;
 use Irmmr\RTLCss\Helpers;
 use Irmmr\RTLCss\Manipulate;
 use Sabberworm\CSS\Value\CSSFunction;
+use Sabberworm\CSS\Value\CSSString;
 use Sabberworm\CSS\Value\RuleValueList;
 use Sabberworm\CSS\Value\Size;
+use Sabberworm\CSS\Value\URL;
+use Sabberworm\CSS\Value\Value;
 
 /**
  * class SwapBackground
@@ -43,12 +46,12 @@ class SwapBackground extends Swap
         // define first
         // $part_key = null;
 
-        // every background seprated by ","
+        // every background separated by ","
         foreach ($items as $item_key => $item) {
             // every loop of background
             $item = $items[ $item_key ];
 
-            // have multi part every bg
+            // have multipart every bg
             //$is_multi_part = false;
 
             // detect single background as a list of values/parts
@@ -98,10 +101,10 @@ class SwapBackground extends Swap
 
             // search in every value entered in background entry: each value of every bg
             foreach ($parts as $part_key => $part) {
-                // every entery/value of every background
+                // every entry/value of every background
                 $part = $parts[ $part_key ];
 
-                // increament part index
+                // increment part index
                 $part_i ++;
 
                 // get part as string
@@ -112,16 +115,16 @@ class SwapBackground extends Swap
 
                     if ($sizes_count === 2) {
                         if ($loop_part_num === 1) {
-                            $parts[ $part_key ] = sprintf('right %s', $part->__toString());
+                            $parts[ $part_key ] = sprintf('right %s', Helpers::toString($part));
                         } elseif ($loop_part_num === 2) {
-                            $parts[ $part_key ] = sprintf('top %s', $part->__toString());
+                            $parts[ $part_key ] = sprintf('top %s', Helpers::toString($part));
                         }
                     } elseif ($sizes_count === 1) {
-                        $parts[ $part_key ] = sprintf('right %s top 50%%', $part->__toString());
+                        $parts[ $part_key ] = sprintf('right %s top 50%%', Helpers::toString($part));
                     }
                 }
 
-                // do not ignore 2th right, left for perspective-origin
+                // do not ignore 2nd right, left for perspective-origin
                 if ($this->property === 'perspective-origin') {
                     $ignore_part = count($parts) === 2 && $part_i === 2 && !preg_match('/\b(right|left)\b/i', $part_str);
                 } else {
@@ -142,8 +145,21 @@ class SwapBackground extends Swap
 
                     continue;
 
-                } else if ($part instanceof CSSFunction && strpos($part->getName(), 'calc') !== false) {
+                } else if ($part instanceof CSSFunction && str_contains($part->getName(), 'calc')) {
                     Manipulate::complement($part);
+
+                } else if (
+                    $part instanceof CSSFunction &&
+                    (
+                        str_contains($part->getName(), 'conic-gradient')
+                        || str_contains($part->getName(), 'linear-gradient')
+                        || str_contains($part->getName(), 'radial-gradient')
+                    )
+                ) {
+                    $grads = $part->getListComponents();
+                    if (count($grads) >= 1) {
+                        Manipulate::negateMixedDeg($grads[0]);
+                    }
 
                 } else if ($part instanceof Size && ($part->getUnit() === '%' || !$part->getUnit())) {
 
@@ -156,6 +172,19 @@ class SwapBackground extends Swap
                         break;
                     }
 
+                } else if ($part instanceof RuleValueList) {
+                    $comps = $part->getListComponents();
+
+                    foreach ($comps as $comp_i => $comp) {
+                        if ($comp instanceof CSSString) {
+                            $comps[ $comp_i ] = Helpers::swapLeftRight($comp->getString());
+
+                        } else if (is_string($comp)) {
+                            $comps[ $comp_i ] = Helpers::swapLeftRight($comp);
+                        }
+                    }
+
+                    $part->setListComponents($comps);
                 }
 
                 $has_positional_argument = false;
@@ -164,7 +193,7 @@ class SwapBackground extends Swap
             if ($is_multi_bg && $item instanceof RuleValueList) {
                 $item->setListComponents($parts);
             } else {
-                $items[ $item_key ] = implode(' ', $parts);
+                $items[ $item_key ] = Helpers::getValueStr($parts);
             }
         }
 

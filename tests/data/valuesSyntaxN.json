@@ -46,12 +46,12 @@
     },
     {
         "should": "Should not mirror property value: border-color (3 values)",
-        "expected": "div { border-color: #000 #000 hsla(0,100%,50%,1); }",
+        "expected": "div { border-color: #000 rgb( 0, 0, 0) hsla(0, 100%, 50%, 1); }",
         "input": "div { border-color: #000 rgb( 0, 0, 0) hsla(0, 100%, 50%, 1); }"
     },
     {
         "should": "Should not mirror property value: border-color (2 values)",
-        "expected": "div { border-color: #000 hsla(0,100%,50%,1); }",
+        "expected": "div { border-color: rgb( 0, 0, 0) hsla(0, 100%, 50%, 1); }",
         "input": "div { border-color:rgb( 0, 0, 0) hsla(0, 100%, 50%, 1); }"
     },
     {
@@ -66,12 +66,12 @@
     },
     {
         "should": "Should mirror property value: box-shadow",
-        "expected": "div { box-shadow: -60px -16px rgba(0,128,128,.98),-10.25px 5px 5px #ff0,inset -.5em 1em 0 white; }",
+        "expected": "div { box-shadow: -60px -16px rgba(0, 128, 128, 0.98),-10.25px 5px 5px #ff0,inset -.5em 1em 0 white; }",
         "input": "div { box-shadow: 60px -16px rgba(0, 128, 128, 0.98), 10.25px 5px 5px #ff0, inset 0.5em 1em 0 white; }"
     },
     {
         "should": "Should mirror property value: text-shadow",
-        "expected": "div { text-shadow: -60px -16px rgba(0,128,128,.98),-10.25px 5px 5px #ff0,inset -.5em 1em 0 white; }",
+        "expected": "div { text-shadow: -60px -16px rgba(0, 128, 128, 0.98),-10.25px 5px 5px #ff0,inset -.5em 1em 0 white; }",
         "input": "div { text-shadow: 60px -16px rgba(0, 128, 128, 0.98), 10.25px 5px 5px #ff0, inset 0.5em 1em 0 white; }"
     },
     {

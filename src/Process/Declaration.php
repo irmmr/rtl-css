@@ -21,12 +21,6 @@ class Declaration
     use OptionsIniTrait;
 
     /**
-     * The node as DeclarationBlock
-     * @var  DeclarationBlock
-     */
-    protected DeclarationBlock $node;
-
-    /**
      * list of all rules
      * @var array
      */
@@ -50,9 +44,8 @@ class Declaration
      * @param DeclarationBlock $node
      * @param Options $options
      */
-    public function __construct(DeclarationBlock $node, Options $options)
+    public function __construct(protected DeclarationBlock $node, Options $options)
     {
-        $this->node = $node;
         $this->options = $options;
 
         $this->removes = $this->options->get('removeRules', []);
@@ -73,7 +66,7 @@ class Declaration
 
     /**
      * run this process with
-     * applyting all we need to our entry
+     * applying all we need to our entry
      */
     public function run(): void
     {

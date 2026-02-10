@@ -2,11 +2,14 @@
 
 namespace Irmmr\RTLCss;
 
+use Irmmr\RTLCss\Encoder\CalcFuncsEncoder;
 use Irmmr\RTLCss\Encoder\ColorFuncsEncoder;
 use Irmmr\RTLCss\Encoder\Encoder;
 
 /**
  * class Encode
+ *
+ * @todo Update decoded code for next Encoder
  *
  * PHP-CSS-Parser have many problems with using css4 or other
  * parsing values.
@@ -20,12 +23,6 @@ use Irmmr\RTLCss\Encoder\Encoder;
 class Encode
 {
     /**
-     * code holder
-     * @var string
-     */
-    protected string $code = '';
-
-    /**
      * encoded code
      * @var string
      */
@@ -37,7 +34,8 @@ class Encode
      * @var array
      */
     protected array $encoders = [
-        'color-funcs' => ColorFuncsEncoder::class
+        'calc-funcs'  => CalcFuncsEncoder::class,
+        'color-funcs' => ColorFuncsEncoder::class,
     ];
 
     /**
@@ -50,10 +48,8 @@ class Encode
     /**
      * class constructor
      */
-    public function __construct(string $code)
-    {
-        $this->code = $code;
-    }
+    public function __construct(protected string $code = '')
+    {}
 
     /**
      * set encoded code

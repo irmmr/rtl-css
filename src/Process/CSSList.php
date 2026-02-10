@@ -5,6 +5,7 @@ namespace Irmmr\RTLCss\Process;
 use Irmmr\RTLCss\Options;
 use Irmmr\RTLCss\Traits\OptionsIniTrait;
 use Sabberworm\CSS\CSSList\CSSList as CList;
+use Sabberworm\CSS\RuleSet\DeclarationBlock;
 use Sabberworm\CSS\RuleSet\RuleSet;
 
 /**
@@ -19,12 +20,6 @@ class CSSList
     use OptionsIniTrait;
 
     /**
-     * The node as CSSList
-     * @var  CList
-     */
-    protected CList $list;
-
-    /**
      * list of every content
      * @var array
      */
@@ -36,9 +31,8 @@ class CSSList
      * @param CList     $list
      * @param Options   $options
      */
-    public function __construct(CList $list, Options $options)
+    public function __construct(protected CList $list, Options $options)
     {
-        $this->list = $list;
         $this->options = $options;
     }
 
@@ -57,7 +51,7 @@ class CSSList
 
     /**
      * run this process with
-     * applyting all we need to our entry
+     * applying all we need to our entry
      */
     public function run(): void
     {
@@ -68,6 +62,10 @@ class CSSList
 
             if ($node instanceof RuleSet) {
                 RuleSets::parse($node, $this->options);
+            }
+
+            if ($node instanceof DeclarationBlock) {
+                Declaration::parse($node, $this->options);
             }
 
             $this->contents[] = $node;

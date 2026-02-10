@@ -25,21 +25,13 @@ class Parser implements ParserInterface
     use OptionsIniTrait;
 
     /**
-     * Parsed tree of css
-     * @var  Document
-     */
-    protected Document $tree;
-
-    /**
      * The function is a PHP constructor that initializes a property with a Document object.
      *
      * @param Document  $tree    tree The `tree` parameter in the constructor is of type `Document`.
      * @param array     $options
      */
-    public function __construct(Document $tree, array $options = [])
+    public function __construct(protected Document $tree, array $options = [])
     {
-        $this->tree = $tree;
-
         $this->options = new Options(self::DEFAULT_OPTIONS);
 
         !empty($options) && $this->options->set($options);

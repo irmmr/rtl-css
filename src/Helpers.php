@@ -2,9 +2,11 @@
 
 namespace Irmmr\RTLCss;
 
+use Sabberworm\CSS\OutputFormat;
 use Sabberworm\CSS\Parsing\SourceException;
 use Sabberworm\CSS\Rule\Rule;
 use Sabberworm\CSS\Parser as CSSParser;
+use Sabberworm\CSS\Value\Value;
 
 /**
  * class Helpers
@@ -52,7 +54,7 @@ class Helpers
      *
      * @param string $value value The `value` parameter in the `swap` function represents the string in which you
      * want to swap occurrences of strings `$a` and `$b` based on the specified options.
-     * @param string $a a The `swap` function you provided is a protected method that takes in a string
+     * @param string $a a `swap` function you provided is a protected method that takes in a string
      * `$value`, two strings `$a` and `$b` to swap, and an optional array `$options` with default values.
      * The function uses regular expressions to find occurrences of either `$a` or `$b` in
      * @param string $b b The `swap` function takes in a string `$value`, and two strings `$a` and `$b` that
@@ -109,16 +111,16 @@ class Helpers
     }
 
     /**
-     * split the input text using seprator
+     * split the input text using separator
      *
      * @param string $input
-     * @param string $seprator
+     * @param string $separator
      *
      * @return array
      */
-    public static function splitTrim(string $input, string $seprator): array
+    public static function splitTrim(string $input, string $separator): array
     {
-        $data = explode($seprator, $input);
+        $data = explode($separator, $input);
 
         $data = array_filter($data, function ($i) {
             return !empty($i);
@@ -150,17 +152,59 @@ class Helpers
     /**
      * get value string
      *
-     * @param mixed     $value
-     * @param string    $implode_seprator
+     * @param   mixed     $value
+     * @param   string    $implode_separator
      * @return  string
      */
-    public static function getValueStr($value, string $implode_seprator = ' '): string
+    public static function getValueStr(mixed $value, string $implode_separator = ' '): string
     {
-        if (is_array($value)) {
-            return implode($implode_seprator, $value);
+        if (is_string($value)) {
+            return $value;
         }
 
-        return is_string($value) ? $value : $value->__toString() ?? '';
+        if (is_array($value)) {
+            $data = array_map(static fn ($i) => self::toString($i), $value);
+            return implode($implode_separator, $data);
+        }
+
+        return self::toString($value);
+    }
+
+    /**
+     * convert every array item to string
+     *
+     * @param array $data
+     * @return array
+     */
+    public static function eachString(array $data): array
+    {
+        return array_map(static fn ($i) => self::toString($i), $data);
+    }
+
+    /**
+     * convert anything to string
+     *
+     * @param   mixed   $value
+     * @param   string  $def
+     * @return  string
+     */
+    public static function toString(mixed $value, string $def = ''): string
+    {
+        return match (true) {
+            is_string($value)       => $value,
+            $value instanceof Value => $value->render(self::defOutputFormat()),
+            default => $def,
+        };
+    }
+
+    /**
+     * default output format
+     *
+     * @return OutputFormat
+     */
+    public static function defOutputFormat(): OutputFormat
+    {
+        return OutputFormat::create();
     }
 
     /**
@@ -177,12 +221,13 @@ class Helpers
     /**
      * check if string include other string
      *
+     * @deprecated use 'str_contains' instead.
      * @param string $str
      * @param string $needle
      * @return  bool
      */
     public static function strIncludes(string $str, string $needle): bool
     {
-        return strpos($str, $needle) !== false;
+        return str_contains($str, $needle);
     }
 }
