@@ -2,25 +2,60 @@
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Parse test for rtlcss
+ */
 final class ParseTest extends TestCase
 {
-    private array $files = [
-        "bg.json",
-        "bgImage.json",
-        "bgPosition.json",
-        "directives.json",
-        "objPosition.json",
-        "perspectiveOrigin.json",
-        "properties.json",
-        "regression.json",
-        "transformOrigin.json",
-        "transforms.json",
-        "values.json",
-        "valuesSyntaxN.json",
-        "variables.json",
-        "fix-150.json",
-    ];
+    /**
+     * css provider
+     *
+     * @return iterable
+     */
+    public static function cssProvider(): iterable
+    {
+        $files = [
+            "bg.json",
+            "bgImage.json",
+            "bgPosition.json",
+            "directives.json",
+            "objPosition.json",
+            "perspectiveOrigin.json",
+            "properties.json",
+            "regression.json",
+            "transformOrigin.json",
+            "transforms.json",
+            "values.json",
+            "valuesSyntaxN.json",
+            "variables.json",
+            "fix-150.json",
+        ];
 
+        $cases = [];
+
+        foreach ($files as $file) {
+            $content = file_get_contents(__DIR__ . '/data/' . $file);
+            $json    = json_decode($content, true);
+
+            foreach ($json as $index => $e) {
+                $cases[$file . ' :: ' . $e['should']] = [
+                    $e['input'],
+                    $e['expected']
+                ];
+            }
+        }
+
+        return $cases;
+    }
+
+    /**
+     * please ignore spaces!
+     * + .div { background: red; }
+     * - .div {background:red;}
+     *
+     * @param string $css
+     * @return string
+     */
     private function addSpacesAroundCSSValues(string $css): string {
         // Regular expression to match CSS rules and ensure spaces around curly braces
         $pattern = '/(\w+\s*\{\s*)([^}]+)(\s*\})/';
@@ -32,6 +67,13 @@ final class ParseTest extends TestCase
         return str_replace('  ', ' ', $css);
     }
 
+    /**
+     * main parser action, do some ...
+     *
+     * @param string $css
+     * @param array $options
+     * @return string
+     */
     private function parseAction(string $css, array $options = []): string
     {
         $rtl_render = new \Irmmr\RTLCss\Encode($css);
@@ -55,18 +97,19 @@ final class ParseTest extends TestCase
         return $this->addSpacesAroundCSSValues( $rtl_render->decode() );
     }
 
-    public function testParseEveryEntry(): void
+    /**
+     * phpunit test parse
+     *
+     * @param string $inputCss
+     * @param string $expectedCss
+     * @return void
+     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('cssProvider')]
+    public function testParse(string $inputCss, string $expectedCss): void
     {
-        foreach ($this->files as $file) {
-            $content = file_get_contents(__DIR__ . '/data/' . $file);
-            $json    = json_decode($content, true);
+        $output = $this->parseAction($inputCss);
+        $expected = $this->addSpacesAroundCSSValues($expectedCss);
 
-            foreach ($json as $e) {
-                $input      = $this->parseAction($e['input']);
-                $expected   = $this->addSpacesAroundCSSValues($e['expected']);
-
-                $this->assertSame($expected, $input, $e['should']);
-            }
-        }
+        $this->assertSame($expected, $output);
     }
 }
