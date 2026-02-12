@@ -204,7 +204,8 @@ Output:
 #element {
     float: right;
     transform: translate3d(calc(-1*(( 25% / 2 ) * 10px)),50%,calc(( ( 25% / 2 ) * 10px )));
-    box-shadow: -2px 2px 2px 1px rgb(0 0 0 / 20%);}
+    box-shadow: -2px 2px 2px 1px rgb(0 0 0 / 20%);
+}
 ```
 
 ## Examples

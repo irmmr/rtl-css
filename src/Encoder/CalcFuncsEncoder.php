@@ -17,7 +17,7 @@ class CalcFuncsEncoder extends Encoder
      *
      * @var string
      */
-    protected string $pattern = '/-(moz|webkit)-calc\s*\(/i';
+    protected string $pattern = '/-(moz|webkit|ms)-calc\s*\(/';
 
     /**
      * get encoded code
@@ -26,7 +26,7 @@ class CalcFuncsEncoder extends Encoder
      */
     public function encode(): string
     {
-        return $this->encoded = preg_replace('/-(moz|webkit|ms)-calc\s*\(/', 'calc(', $this->code);
+        return $this->encoded = preg_replace($this->pattern, 'calc(', $this->code);
     }
 
     /**
