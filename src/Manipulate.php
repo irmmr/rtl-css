@@ -77,6 +77,10 @@ class Manipulate
             return;
         }
 
+        if (is_string($value)) {
+            return;
+        }
+
         $items = $value->getListComponents();
 
         foreach ($items as $i => $item) {
